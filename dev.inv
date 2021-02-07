@@ -1,2 +1,2 @@
 [webservers]
-192.168.15.6 ansible_user=sparanjpe
+192.168.15.10 ansible_user=root
