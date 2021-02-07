@@ -1,11 +1,12 @@
 ---
-- hosts: webservers
+  hosts: webservers
   become: True
   tasks:
     - name: Install packages
       yum:
         name: "httpd"
         state: "present"
+    - name: Start the HTTP Service
       service:
         name: "httpd"
         state: started
