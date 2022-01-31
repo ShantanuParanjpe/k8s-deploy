@@ -7,7 +7,7 @@ stages {
          git'https://github.com/ShantanuParanjpe/shaanrepo.git'
        }
    }   
-}
+
    
    stage('K8s Deploy') {
        steps {
@@ -16,4 +16,5 @@ stages {
                 }
             }
         }
+    }
 }
