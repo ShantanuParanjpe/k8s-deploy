@@ -9,7 +9,7 @@ stages {
    }   
 }
    
-    stage('K8s Deploy') {
+   stage('K8s Deploy') {
        steps {
           script {
             kubernetesDeploy(configs: "dep.yml", kubeconfigId: "mykubeconfig")
