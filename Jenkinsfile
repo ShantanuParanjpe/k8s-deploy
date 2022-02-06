@@ -1,5 +1,5 @@
 pipeline{
-    agent {label 'kubepod'}
+    agent any
 
 stages {
    stage('Git Checkout') {
