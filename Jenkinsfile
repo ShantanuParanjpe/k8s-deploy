@@ -12,7 +12,7 @@ stages {
    stage('K8s Deploy') {
        steps {
           script {
-            kubernetesDeploy(configs: "/Users/shaan/shaanrepo/dep.yml", kubeconfigId: "mykubeconfig")
+            kubernetesDeploy(configs: "dep.yml", kubeconfigId: "mykubeconfig")
                 }
             }
         }
