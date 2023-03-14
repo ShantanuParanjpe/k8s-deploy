@@ -2,9 +2,10 @@ pipeline {
   agent any
   
   environment {
-    TF_CLI_ARGS = "-no-color"
-  }
-  
+    AWS_ACCESS_KEY_ID = credentials('aws-key')
+    AWS_SECRET_ACCESS_KEY = credentials('aws-key')
+    AWS_DEFAULT_REGION = 'us-west-2'
+ } 
   stages {
     stage("Checkout") {
       steps {
