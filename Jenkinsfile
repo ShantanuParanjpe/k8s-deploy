@@ -7,13 +7,16 @@ pipeline {
         git branch: 'main', url: 'https://github.com/ShantanuParanjpe/shaanrepo.git'
       }
     }
-    
-    stage("Login to AWS") {
+
+    stage('Login to AWS') {
       steps {
-         withCredentials([awsAccessKey(credentialsId: 'aws-key', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) 
-           }
-       }
-       
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+        ]])
+   }
+ } 
 
     stage("Terraform Init") {
       steps {
@@ -34,14 +37,6 @@ pipeline {
       }
     }
     
-    stage("Show Instance IPs") {
-      steps {
-        script {
-          def instance_ips = sh(script: "terraform output -raw instance_ips", returnStdout: true).trim()
-          echo "Instance IPs: ${instance_ips}"
-        }
-      }
     }
   }
-}
 
