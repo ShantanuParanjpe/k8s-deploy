@@ -1,20 +1,18 @@
 pipeline {
   agent any
-
-  credentials {
-    usernamePassword(
-      credentialsId: 'aws-credentials',
-      usernameVariable: 'AWS_ACCESS_KEY_ID',
-      passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-    )
+  
+  environment {
+    TF_CLI_ARGS = "-no-color"
+    
   }
+  
   stages {
     stage("Checkout") {
       steps {
         git branch: 'main', url: 'https://github.com/ShantanuParanjpe/shaanrepo.git'
       }
     }
-
+    
     stage("Terraform Init") {
       steps {
         sh "terraform init"
@@ -33,7 +31,6 @@ pipeline {
         sh "terraform apply -auto-approve tfplan"
       }
     }
-    
-    }
   }
+}
 
