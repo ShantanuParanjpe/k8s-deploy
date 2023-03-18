@@ -1,7 +1,6 @@
 provider "aws" {
-  region = "us-eest-2"
-  access_key = "AKIAUF7LIOJIVY4FHTMM"
-  secret_key = "dbXsVuHzqhj8WGcsJfOSpTsM7Aaxlu9iTh/pRjf"
+  region = "us-east-2"
+  shared_credentials_file = "/root/creds.txt"
 }
 
 resource "aws_vpc" "example" {
