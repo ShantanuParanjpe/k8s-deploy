@@ -1,7 +1,5 @@
 provider "aws" {
   region = "us-east-2"
-  shared_credentials_file = "/root/creds.txt"
-  profile                 = "default"
 }
 
 resource "aws_vpc" "example" {
