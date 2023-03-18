@@ -6,8 +6,6 @@ pipeline {
 
 }
     
-  }
-  
   stages {
     stage("Checkout") {
       steps {
@@ -34,4 +32,5 @@ pipeline {
       }
     }
   }
+}
 
