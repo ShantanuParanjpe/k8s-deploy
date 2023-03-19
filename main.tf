@@ -15,7 +15,7 @@ resource "aws_subnet" "example-subnet" {
 
 resource "aws_security_group" "example" {
   name = "example"
-  subnet_id   = aws_subnet.example-subnet.id
+  vpc_id   = aws_vpc.example.id 
   ingress {
     from_port = 0
     to_port   = 65535
