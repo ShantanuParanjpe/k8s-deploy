@@ -1,7 +1,5 @@
 provider "aws" {
   region = "us-east-2"
-  shared_credentials_files = "~/.aws/credentials"
-  required_version = ">=3.74.2"
 }
 
 resource "aws_vpc" "example" {
