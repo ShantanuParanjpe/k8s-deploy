@@ -8,13 +8,14 @@ resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
 
-resource "aws_subnet" "example" {
+resource "aws_subnet" "example-subnet" {
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.1.0/24"
 }
 
 resource "aws_security_group" "example" {
-  name_prefix = "example-"
+  name = "example"
+  subnet_id   = aws_subnet.example-subnet.id
   ingress {
     from_port = 0
     to_port   = 65535
@@ -26,9 +27,8 @@ resource "aws_security_group" "example" {
 resource "aws_instance" "instance-1" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
-
   vpc_security_group_ids = [aws_security_group.example.id]
-  subnet_id              = aws_subnet.example.id
+  subnet_id              = aws_subnet.example-subnet.id
 
   tags = {
     Name = "instance-1"
@@ -40,7 +40,7 @@ resource "aws_instance" "instance-2" {
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.example.id]
-  subnet_id              = aws_subnet.example.id
+  subnet_id              = aws_subnet.example-subnet.id
 
   tags = {
     Name = "instance-2"
