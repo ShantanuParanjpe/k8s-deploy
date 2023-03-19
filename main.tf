@@ -10,7 +10,7 @@ resource "aws_vpc" "example" {
 
 resource "aws_subnet" "example-subnet" {
   vpc_id     = aws_vpc.example.id
-  cidr_block = "192.168.1.0/24"
+  cidr_block = "192.168.1.0/25"
 }
 
 resource "aws_security_group" "example" {
