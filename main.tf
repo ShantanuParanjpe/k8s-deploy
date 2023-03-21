@@ -13,6 +13,7 @@ resource "aws_subnet" "example-subnet" {
   cidr_block = "10.0.1.0/24"
 }
 
+
 resource "aws_security_group" "example" {
   name = "example"
   vpc_id   = aws_vpc.example.id 
@@ -22,6 +23,22 @@ resource "aws_security_group" "example" {
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "local_file" "foo" {
+  content  =  tls_private_key.rsa.private_key.pem
+  filename = "tfkey"
+}
+
+resource "aws_key_pair" "TF_key" {
+  key_name = "TF_key"
+  public_key = tls_private_key.rsa.public_key_openssh
+}
+
+
+resource "tls_private_key" "rsa" {
+  algorithm = "RSA"
+  rsa_bits = 4096
 }
 
 resource "aws_instance" "instance-1" {
