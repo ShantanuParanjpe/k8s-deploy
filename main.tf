@@ -25,9 +25,8 @@ resource "aws_security_group" "example" {
   }
 }
 
-resource "local_file" "TF-key" {
-  content  =  tls_private_key.rsa.private_key_pem
-  filename = "${aws_key_pair.TF_key.key_name}.pem"
+provisioner "local-exec" {
+ command = "echo '${tls_private_key.rsa.private_key_pem}' > ./myKey.pem"
 }
 
 resource "aws_key_pair" "TF_key" {
