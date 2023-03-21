@@ -47,6 +47,7 @@ resource "aws_instance" "instance-1" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
+  key_name = "TF_key"
   tags = {
     Name = "instance-1"
   }
@@ -59,7 +60,7 @@ resource "aws_instance" "instance-2" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
-
+  key_name = "TF_key"
   tags = {
     Name = "instance-2"
   }
