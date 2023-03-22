@@ -25,13 +25,15 @@ resource "aws_security_group" "example" {
   }
 }
 
-provisioner "local-exec" {
- command = "echo '${tls_private_key.rsa.private_key_pem}' > ./myKey.pem"
-}
-
 resource "aws_key_pair" "TF_key" {
   key_name = "TF_key"
   public_key = tls_private_key.rsa.public_key_openssh
+  provisioner "local-exec" {
+    command = <<-EOT
+      echo '${tls_private_key.rsa.private_key_pem}' > aws_keys_pairs.pem
+      chmod 400 aws_keys_pairs.pem
+    EOT
+  }
 }
 
 
