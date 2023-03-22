@@ -66,8 +66,3 @@ resource "aws_instance" "instance-2" {
   }
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = "deployer-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQXmilKQeu1jYF2wj/8cZRYCncj0whNpud3xtsQcek1ZiAJwcaOsUM3S3gQ/QUyKEW/weJEybvcCzEFePbse/W6DQoZ3otubsXoSyfG++mlqmXwQtbsu9Nz8UhI1ExvcinlUeB5Mj//bqKDzjMjXGCedNCttlVefyjl0yRsPsuiXh4LkJH7+mtoCThRIxRFI0AIDW8yvAXt//ViJqj/bX1mHhHijA/P6f6qbaRr2fBVNvgBx0BhcgXSoCfNK6tq7JTS57x1s1GzekGTXCjO4n9AZy+L6C9yCmxrQ+pwz4ucNmMpK2IvGfSufTT9wjwlLNAmRVOjEZDLLqO8AhgW9ieo6je97ldbuc08XfXkhkxsylmHkQv9V74eLFEvBSeRAhovgpNOT8uoaFAijvt2MuR9rRv3KB8c0otp6JLWUWGGPGaAVYj8ubZsq1qgnb8WRguvqkSiLGP2XrccXnY/KZT91Yjnu9aUMVCnC1/aCZg8fTz76lHZx2cNRyeJ4zocgU= root@server"
-  
-}
