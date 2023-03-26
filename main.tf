@@ -23,22 +23,11 @@ resource "aws_security_group" "example" {
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "aws_key_pair" "TF_key" {
-  key_name = "TF_key"
-  public_key = tls_private_key.rsa.public_key_openssh
-  provisioner "local-exec" {
-    command = <<-EOT
-      echo '${tls_private_key.rsa.private_key_pem}' > aws_keys_pairs.pem
-      chmod 400 aws_keys_pairs.pem
-    EOT
+  ingress {
+    to_port   = 22
+    protocol  = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "tls_private_key" "rsa" {
-  algorithm = "RSA"
-  rsa_bits = 4096
 }
 
 resource "aws_instance" "instance-1" {
@@ -47,9 +36,9 @@ resource "aws_instance" "instance-1" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
-  key_name = "TF_key"
+  key_name = "aws-key"
   tags = {
-    Name = "instance-1"
+    Name = "master"
   }
 }
 
@@ -60,8 +49,8 @@ resource "aws_instance" "instance-2" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
-  key_name = "TF_key"
+  key_name = "aws-key"
   tags = {
-    Name = "instance-2"
+    Name = "slave"
   }
 }
