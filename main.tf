@@ -22,7 +22,11 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+<<<<<<< HEAD
     from_port = 0
+=======
+    from_port = 22
+>>>>>>> 6c5c08fb706a145c47a8b7d54aea59ea58b4ca93
     to_port   = 22
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
@@ -35,7 +39,11 @@ resource "aws_internet_gateway" "gw" {
 
 
 resource "aws_instance" "instance-1" {
+<<<<<<< HEAD
   ami           = "ami-026ebd4cfe2c043b2"
+=======
+  ami           = "ami-067a8829f9ae24c1c"
+>>>>>>> 6c5c08fb706a145c47a8b7d54aea59ea58b4ca93
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
@@ -44,7 +52,11 @@ resource "aws_instance" "instance-1" {
 }
 
 resource "aws_instance" "instance-2" {
+<<<<<<< HEAD
   ami           = "ami-026ebd4cfe2c043b2"
+=======
+  ami           = "ami-067a8829f9ae24c1c"
+>>>>>>> 6c5c08fb706a145c47a8b7d54aea59ea58b4ca93
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.example.id]
