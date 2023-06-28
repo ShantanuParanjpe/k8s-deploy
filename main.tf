@@ -22,7 +22,6 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port = 0
     from_port = 22
     to_port   = 22
     protocol  = "tcp"
