@@ -1,13 +1,6 @@
 pipeline {
   agent any
 
-  environment {
-    TF_CLI_ARGS = "-no-color"
-    AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
-    AWS_SEC_KEY = credentials('AWS_SECRET_KEY')
-
-}
-
   stages {
     stage("Checkout") {
       steps {

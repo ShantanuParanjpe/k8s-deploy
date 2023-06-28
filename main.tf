@@ -1,7 +1,5 @@
 provider "aws" {
-  region = "us-east-2"
-  access_key = var.access_key
-  secret_key = var.secret_key
+  region = "us-east-1"
 }
 
 resource "aws_vpc" "example" {
@@ -24,33 +22,33 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    from_port = 0
     to_port   = 22
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.example.id
+}
+
+
 resource "aws_instance" "instance-1" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = "ami-026ebd4cfe2c043b2"
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
-  key_name = "aws-key"
-  tags = {
-    Name = "master"
-  }
+  key_name = "aws-key" 
 }
 
 resource "aws_instance" "instance-2" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = "ami-026ebd4cfe2c043b2"
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
   associate_public_ip_address = "true"
   key_name = "aws-key"
-  tags = {
-    Name = "slave"
-  }
 }
