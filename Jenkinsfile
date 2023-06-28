@@ -1,10 +1,6 @@
 pipeline {
   agent any
 
-   environment {
-    AWS_CREDENTIALS = credentials('a9a21e90-f004-4f2e-bca1-dc97b669a8d2')
-  }
-
   stages {
     stage("Checkout") {
       steps {
@@ -14,7 +10,6 @@ pipeline {
 
     stage("Terraform Init") {
       steps {
-        withAWS(credentials: a9a21e90-f004-4f2e-bca1-dc97b669a8d2, region: 'us-west-2')
         sh "terraform init"
       }
     }
