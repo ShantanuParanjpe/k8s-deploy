@@ -10,13 +10,8 @@ pipeline {
 
     stage("Terraform Init") {
       steps {
-         withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credentials']])
-         {
         sh "terraform init"
          }
-    }
     }
 
     stage("Terraform Plan") {
@@ -32,8 +27,13 @@ pipeline {
 
     stage("Terraform Apply") {
       steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials']])
+        { 
         input "Deploy infrastructure? (type 'yes' to proceed)"
         sh "terraform apply -auto-approve tfplan"
+        }
       }
     }
   }
