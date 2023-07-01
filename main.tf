@@ -35,7 +35,7 @@ resource "aws_internet_gateway" "gw" {
 
 
 resource "aws_instance" "instance-1" {
-  ami           = "ami-067a8829f9ae24c1c"
+  ami           = "ami-026ebd4cfe2c043b2"
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id              = aws_subnet.example-subnet.id
@@ -44,7 +44,7 @@ resource "aws_instance" "instance-1" {
 }
 
 resource "aws_instance" "instance-2" {
-  ami           = "ami-067a8829f9ae24c1c"
+  ami           = "ami-026ebd4cfe2c043b2"
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.example.id]
