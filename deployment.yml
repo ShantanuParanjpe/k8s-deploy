@@ -1,0 +1,44 @@
+---
+- name: Deploy NGINX Application
+  hosts: aws_region_us_east_1
+  become: true
+  tasks:
+    - name: Deploy NGINX Deployment
+      k8s:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: nginx-deployment
+          namespace: default
+        spec:
+          replicas: 3
+          selector:
+            matchLabels:
+              app: nginx
+          template:
+            metadata:
+              labels:
+                app: nginx
+            spec:
+              containers:
+                - name: nginx
+                  image: nginx 
+                  ports:
+                    - containerPort: 80
+ 
+    - name: Deploy NGINX Service
+      k8s:
+        api_version: v1
+        kind: Service
+        metadata:
+          name: nginx-service
+          namespace: default
+        spec:
+          selector:
+            app: nginx
+          ports:
+            - name: http
+              protocol: TCP
+              port: 80
+              targetPort: 80
+          type: LoadBalancer 
