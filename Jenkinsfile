@@ -15,7 +15,7 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-         sh 'docker build -t shaan/nginx:latest .'
+         sh 'docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .'
          }
     }
     
