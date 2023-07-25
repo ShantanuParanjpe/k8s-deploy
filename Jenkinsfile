@@ -18,13 +18,14 @@ pipeline {
          sh 'docker build -t shaan/nginx:latest .'
          }
     }
-    }
+    
     
     stage('Login') {
       steps {
          script {
           docker.withCredentials("${DOCKER_REGISTRY}", 'shaan-dockerhub')
          }
+    }
     }
 
     stage('Push Docker Image') {
@@ -36,6 +37,7 @@ pipeline {
         }
       }
     }
+    }
 
     stage('Deploy to K8s with Ansible') {
       steps {
@@ -44,3 +46,4 @@ pipeline {
     }
   }
 }
+
