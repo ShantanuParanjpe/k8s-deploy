@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-         git clone 'https://github.com/ShantanuParanjpe/shaanrepo.git'
+        checkout scm
       }
     }
 
@@ -23,8 +23,9 @@ pipeline {
     stage('Login') {
       steps {
          script {
-          docker.withCredentials("${DOCKER_REGISTRY}", 'shaan-dockerhub')
+           docker.withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
          }
+      }
     }
     }
 
@@ -41,7 +42,7 @@ pipeline {
 
     stage('Deploy to K8s with Ansible') {
       steps {
-         ansible-playbook -i inventory_aws_ec2.yaml playbook.yml
+        sh  'ansible-playbook -i inventory_aws_ec2.yaml playbook.yml'
       }
     }
   }
