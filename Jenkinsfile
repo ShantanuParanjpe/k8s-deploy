@@ -41,7 +41,7 @@ pipeline {
 
     stage('Deploy to K8s with Ansible') {
       steps {
-         ansible-playbook -i inventory playbook.yml
+         ansible-playbook -i inventory_aws_ec2.yaml playbook.yml
       }
     }
   }
