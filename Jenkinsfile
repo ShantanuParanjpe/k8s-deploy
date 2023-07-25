@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git clone  https://github.com/ShantanuParanjpe/shaanrepo.git
+         git clone 'https://github.com/ShantanuParanjpe/shaanrepo.git'
       }
     }
 
