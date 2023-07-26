@@ -3,39 +3,13 @@
   hosts: tag_Name_k8s_master 
   become: true
   tasks:
-    - name: Deploy NGINX Deployment
+    - name: copying file with playbook
+      copy:
+        src: nginx-dep.yml
+        dest: /tmp/nginx-dep.yml
+
+    - name: "Create a deployment"
       k8s:
-        api_version: apps/v1
-        kind: Deployment
-        name: nginx-deployment
+        state: present
         namespace: default
-        spec:	
-          selector:
-            matchLabels:
-              app: nginx
-          replicas: 3
-          template:
-            metadata:
-              labels:
-                app: nginx
-            spec:
-              containers:
-                - name: nginx
-                  image: nginx 
-                  ports:
-                    - containerPort: 80
- 
-    - name: Deploy NGINX Service
-      k8s:
-        api_version: v1
-        kind: Service
-        name: nginx-service
-        namespace: default
-        selector:
-          app: nginx
-        ports:
-          - name: http
-            protocol: TCP
-            port: 80
-            targetPort: 80
-        type: LoadBalancer 
+        src: /tmp/nginx-dep.yml
