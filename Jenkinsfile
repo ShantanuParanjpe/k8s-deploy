@@ -21,11 +21,14 @@ pipeline {
     
     stage('Push Docker Image') {
       steps {
+        script {
           withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-              sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+           def dockerLoginCmd ='docker login -u $DOCKER_USER -p $DOCKER_PASS'
+           sh dockerLoginCmd
           }
              sh 'docker push ${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}' 
       }
+     }
     }
 
     stage('Deploy to K8s with Ansible') {
