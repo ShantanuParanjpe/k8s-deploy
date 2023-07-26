@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-     DOCKER_REGISTRY = 'https://index.docker.io/v1/'
+     DOCKER_REGISTRY = 'https://registry-1.docker.io/v2/'
      DOCKER_IMAGE_NAME = 'nginx'
      DOCKER_IMAGE_TAG = 'latest'
   }
