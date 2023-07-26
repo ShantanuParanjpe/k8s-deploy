@@ -16,7 +16,7 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-         sh 'docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .'
+         sh 'docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .'
          }
     }
     
@@ -24,10 +24,10 @@ pipeline {
       steps {
         script {
             withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-             def dockerLoginCmd ='docker login -u $DOCKER_USER -p $DOCKER_PASS'
+              sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+              sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
           }
       }
-             sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" 
      }
     }
 
