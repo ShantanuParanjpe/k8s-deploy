@@ -26,7 +26,6 @@ pipeline {
               docker.withRegistry( '', registryCredential)
           }
              sh 'docker push ${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}' 
-      }
      }
     }
 
