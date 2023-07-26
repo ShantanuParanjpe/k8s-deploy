@@ -19,22 +19,14 @@ pipeline {
          }
     }
     
-    
-    stage('Login') {
-      steps {
-         script {
-            withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-         }
-      }
-    }
-    }
-
     stage('Push Docker Image') {
       steps {
         script {
+          withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
           docker.withRegistry("${DOCKER_REGISTRY}") {
               def dockerImage = docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
               dockerImage.push()
+          }
         }
       }
     }
@@ -42,8 +34,17 @@ pipeline {
 
     stage('Deploy to K8s with Ansible') {
       steps {
-        sh  'ansible-playbook -i inventory_aws_ec2.yaml playbook.yml'
+         withCredentials([
+             sshUserPrivateKey(credentialsId: 'aws-credentials', keyFileVariable: 'SSH_PRIVATE_KEY_FILE', usernameVariable: 'SSH_USER')]) {
+             sh  '''
+             mkdir -p $WORKSPACE/.ssh
+             cp $SSH_PRIVATE_KEY_FILE $WORKSPACE/.ssh/id_rsa
+             chmod 600 $WORKSPACE/.ssh/id_rsa
+             chmod 700 $WORKSPACE/.ssh
+             ansible-playbook -i inventory_aws_ec2.yaml playbook.yml --private-key=$WORKSPACE/.ssh/id_rsa --user=$SSH_USER --ssh-common-args='-o StrictHostKeyChecking=no'
+             '''
       }
+     }
     }
   }
 }
