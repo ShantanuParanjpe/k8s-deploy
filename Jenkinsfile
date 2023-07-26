@@ -4,6 +4,7 @@ pipeline {
      DOCKER_REGISTRY = 'https://registry-1.docker.io/v2/'
      DOCKER_IMAGE_NAME = 'nginx'
      DOCKER_IMAGE_TAG = 'latest'
+     registryCredential = 'shaan-dockerhub'
   }
 
   stages {
@@ -22,9 +23,7 @@ pipeline {
     stage('Push Docker Image') {
       steps {
         script {
-          withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-           def dockerLoginCmd ='docker login -u $DOCKER_USER -p $DOCKER_PASS'
-           sh dockerLoginCmd
+              docker.withRegistry( '', registryCredential)
           }
              sh 'docker push ${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}' 
       }
