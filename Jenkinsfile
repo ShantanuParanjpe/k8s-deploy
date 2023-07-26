@@ -23,9 +23,11 @@ pipeline {
     stage('Push Docker Image') {
       steps {
         script {
-              docker.withRegistry( '', registryCredential)
+            withCredentials([usernamePassword(credentialsId: 'shaan-dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+             def dockerLoginCmd ='docker login -u $DOCKER_USER -p $DOCKER_PASS'
           }
-             sh 'docker push ${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}' 
+      }
+             sh "docker push ${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" 
      }
     }
 
