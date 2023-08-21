@@ -31,7 +31,7 @@ pipeline {
      }
     }
 
-    stage('Deploy to K8s with Ansible') {
+    stage('Create Secret object with Ansible') {
       steps {
          withCredentials([
              sshUserPrivateKey(credentialsId: 'aws-credentials', keyFileVariable: 'SSH_PRIVATE_KEY_FILE', usernameVariable: 'SSH_USER')]) {
@@ -40,7 +40,7 @@ pipeline {
              cp $SSH_PRIVATE_KEY_FILE $WORKSPACE/.ssh/id_rsa
              chmod 600 $WORKSPACE/.ssh/id_rsa
              chmod 700 $WORKSPACE/.ssh
-             ansible-playbook -i inventory_aws_ec2.yaml deployment.yml --private-key=$WORKSPACE/.ssh/id_rsa --user=$SSH_USER --ssh-common-args='-o StrictHostKeyChecking=no'
+             ansible-playbook -i inventory_aws_ec2.yaml secret.yml --private-key=$WORKSPACE/.ssh/id_rsa --user=$SSH_USER --ssh-common-args='-o StrictHostKeyChecking=no'
              '''
       }
      }
