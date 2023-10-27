@@ -1,15 +1,10 @@
----
-- name: Deploy NGINX Application
-  hosts: tag_Name_k8s_master 
-  become: true
-  tasks:
-    - name: copying file with playbook
-      copy:
-        src: nginx-dep.yml
-        dest: /tmp/nginx-dep.yml
-
-    - name: "Create a deployment"
-      k8s:
-        state: present
-        namespace: default
-        src: /tmp/nginx-dep.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: private-reg-container
+    image: shaan/nginx:latest
+  imagePullSecrets:
+  - name: docker-secret
