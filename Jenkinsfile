@@ -8,9 +8,6 @@ pipeline {
         DOCKER_CONFIG_JSON = credentials('docker-config-json')
         K8S_SECRET_NAME = 'docker-secret'
         K8S_NAMESPACE = 'default'		
-		remoteServer = 'your_server_ip_or_hostname'
-		remoteUser = 'your_ssh_username'
-		SSH_CREDS = credentials('ssh-creds')
     }
     
     stages {
@@ -57,8 +54,8 @@ pipeline {
                 script {
                          withCredentials([usernamePassword(credentialsId: ssh-creds, passwordVariable: 'CREDENTIAL_PASS')]) {
                           sshScript(
-						  remote: 192.168.56.112,
-						  user: root,
+						  remote: '192.168.56.112',
+						  user: 'root',
 						  password: env.CREDENTIAL_PASS,
                           script: '''
                               sh "echo ${DOCKER_CONFIG_JSON} | base64 --decode > docker-config.json"
