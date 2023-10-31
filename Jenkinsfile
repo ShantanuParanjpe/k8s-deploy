@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_REGISTRY = 'https://hub.docker.com/u/shantanu1990'
+        DOCKER_REGISTRY = 'shantanu1990/test:latest'
         DOCKER_IMAGE_NAME = 'nginx'
         DOCKER_IMAGE_TAG = 'latest'    
         DOCKER_CONFIG_JSON = credentials('docker-config-json')
