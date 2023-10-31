@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_REGISTRY = 'shantanu1990/test:latest'
-        DOCKER_IMAGE_NAME = 'nginx'
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_IMAGE_NAME = 'shantanu1990/nginx'
         DOCKER_IMAGE_TAG = 'latest'    
         DOCKER_CONFIG_JSON = credentials('docker-config-json')
         K8S_SECRET_NAME = 'docker-secret'
