@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                git clone  https://github.com/ShantanuParanjpe/shaanrepo.git
+               checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], userRemoteConfigs: [[url: 'https://github.com/ShantanuParanjpe/shaanrepo.git']]]) 
             }
         }
         
