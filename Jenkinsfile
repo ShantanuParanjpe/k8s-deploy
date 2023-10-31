@@ -32,7 +32,6 @@ pipeline {
             steps {
                  sh 'docker build -t shaan/nginx:latest .'
                 }
-            }
         }
         
 		
