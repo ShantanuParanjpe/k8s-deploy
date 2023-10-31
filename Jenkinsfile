@@ -55,10 +55,10 @@ pipeline {
 		stage('SSH and Execute Commands on Remote Host') {
             steps {
                 script {
-                         withCredentials([usernamePassword(credentialsId: credentialId, passwordVariable: 'CREDENTIAL_PASS')]) {
+                         withCredentials([usernamePassword(credentialsId: ssh-creds, passwordVariable: 'CREDENTIAL_PASS')]) {
                           sshScript(
-						  remote: remoteServer,
-						  user: remoteUser,
+						  remote: 192.168.56.112,
+						  user: root,
 						  password: env.CREDENTIAL_PASS,
                           script: '''
                               sh "echo ${DOCKER_CONFIG_JSON} | base64 --decode > docker-config.json"
