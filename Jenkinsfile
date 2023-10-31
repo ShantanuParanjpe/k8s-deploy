@@ -49,7 +49,7 @@ pipeline {
             }
         }
 		
-		stage('SSH and Execute Commands on Remote Host') {
+	stage('SSH and Execute Commands on Remote Host') {
             steps {
                 script {
                          withCredentials([usernamePassword(credentialsId: ssh-creds, passwordVariable: 'CREDENTIAL_PASS')]) {
