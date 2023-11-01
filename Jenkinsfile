@@ -20,9 +20,11 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {                   
-                    docker.withRegistry("${DOCKER_REGISTRY}") {
-                        def dockerImage = docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                        dockerImage.pull()
+                      withCredentials([usernamePassword(credentialsId: docker-creds, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh """
+                        docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD \$DOCKER_REGISTRY
+                        docker pull \$DOCKER_REGISTRY/\$DOCKER_IMAGE
+                        """
                     }
                 }
             }
@@ -39,10 +41,11 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Push the new Docker image to the registry using the credentials
-                    docker.withRegistry("${DOCKER_REGISTRY}") {
-                        def dockerImage = docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                        dockerImage.push()
+                       withCredentials([usernamePassword(credentialsId: docker-creds, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh """
+                        docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD \$DOCKER_REGISTRY
+                        docker push \$DOCKER_REGISTRY/\$DOCKER_IMAGE
+                        """
                     }
                 }
             }
