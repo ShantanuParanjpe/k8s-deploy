@@ -7,6 +7,7 @@ pipeline {
         DOCKER_IMAGE_TAG = 'latest'    
         DOCKER_CONFIG_JSON = credentials('docker-config-json')
         DOCKER_CREDENTIALS = credentials('docker-creds')
+        SSH_CREDENTIALS= credentials('ssh-creds')
         K8S_SECRET_NAME = 'docker-secret'
         K8S_NAMESPACE = 'default'		
     }
@@ -55,7 +56,7 @@ pipeline {
 	stage('SSH and Execute Commands on Remote Host') {
             steps {
                 script {
-                         withCredentials([usernamePassword(credentialsId: , passwordVariable: 'CREDENTIAL_PASS')]) {
+                         withCredentials([usernamePassword(credentialsId: SSH_CREDENTIALS, passwordVariable: 'CREDENTIAL_PASS')]) {
                           sshScript(
 						  remote: '192.168.56.112',
 						  user: 'root',
