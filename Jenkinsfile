@@ -6,6 +6,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'shantanu1990/nginx'
         DOCKER_IMAGE_TAG = 'latest'    
         DOCKER_CONFIG_JSON = credentials('docker-config-json')
+        DOCKER_CREDENTIALS = credentials('docker-creds')
         K8S_SECRET_NAME = 'docker-secret'
         K8S_NAMESPACE = 'default'		
     }
@@ -20,7 +21,7 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {                   
-                      withCredentials([usernamePassword(credentialsId: docker-creds, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                      withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                         docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD \$DOCKER_REGISTRY
                         docker pull \$DOCKER_REGISTRY/\$DOCKER_IMAGE
@@ -41,7 +42,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                       withCredentials([usernamePassword(credentialsId: docker-creds, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                       withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                         docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD \$DOCKER_REGISTRY
                         docker push \$DOCKER_REGISTRY/\$DOCKER_IMAGE
@@ -54,7 +55,7 @@ pipeline {
 	stage('SSH and Execute Commands on Remote Host') {
             steps {
                 script {
-                         withCredentials([usernamePassword(credentialsId: ssh-creds, passwordVariable: 'CREDENTIAL_PASS')]) {
+                         withCredentials([usernamePassword(credentialsId: , passwordVariable: 'CREDENTIAL_PASS')]) {
                           sshScript(
 						  remote: '192.168.56.112',
 						  user: 'root',
