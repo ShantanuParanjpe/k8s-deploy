@@ -46,7 +46,7 @@ pipeline {
                        withCredentials([usernamePassword([[$class: 'UsernamePasswordMultiBinding,credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]]) {
                         sh """
                         docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD \$DOCKER_REGISTRY
-                        docker push shaan/nginx:latest
+                        docker push \$DOCKER_IMAGE_NAME:\$DOCKER_IMAGE_TAG 
                         """
                     }
                 }
