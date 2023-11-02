@@ -3,6 +3,10 @@ pipeline {
   
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-token')
+    SSH_CREDENTIALS = credentials('ssh-creds')
+    K8S_SECRET_NAME = 'docker-secret'
+    K8S_NAMESPACE = 'default'
+    DOCKER_CONFIG_JSON = credentials('docker-config-json')
   }
   stages {
     stage('Git Clone') {
