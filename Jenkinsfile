@@ -35,7 +35,7 @@ pipeline {
         sh 'docker push shantanu1990/test:latest'
       }
     }
-  }
+  
    
     stage('SSH and Execute Commands on Remote Host') {
             steps {
@@ -55,7 +55,9 @@ pipeline {
                       } 
                    }
              }
-  
+         
+         }  
+
   post {
     always {
       sh 'docker logout'
