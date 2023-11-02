@@ -2,7 +2,7 @@ pipeline {
   agent any
   
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-creds')
+    DOCKERHUB_CREDENTIALS = credentials('docker-token')
   }
   stages {
     stage('Git Clone') {
@@ -14,22 +14,21 @@ pipeline {
     stage('Build') {
       steps {
 	    script {
-          withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS , usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')]) {
+          withCredentials([usernamePassword(credentialsId: docker-token , variable: 'DOCKERHUB_TOKEN')]) {
            sh 'docker build -t shantanu1990/test:latest .'
+         }
       }
-    }
    }
- }
 	
     stage('Login') {
       steps {
 	    script {
-          withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS , usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')]) {
-           sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          withCredentials([usernamePassword(credentialsId: docker-token , variable: 'DOCKERHUB_TOKEN')]) {
+           sh 'docker login -u shantanu1990 -p $DOCKERHUB_TOKEN'
       }
-     }
     }
-  }
+   }
+ }
 	
     stage('Push') {
       steps {
