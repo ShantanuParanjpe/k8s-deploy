@@ -24,7 +24,7 @@ pipeline {
       steps {
 	    script {
           withCredentials([usernamePassword(credentialsId: docker-token , variable: 'DOCKERHUB_TOKEN')]) {
-           sh 'docker login -u shantanu1990 -p $DOCKERHUB_TOKEN'
+           sh "docker login -u shantanu1990 -p \$DOCKERHUB_TOKEN"
       }
     }
    }
