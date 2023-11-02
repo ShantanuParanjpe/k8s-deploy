@@ -50,6 +50,7 @@ pipeline {
                                 kubectl create secret generic \${K8S_SECRET_NAME} --from-file=docker-config.json --namespace=\${K8S_NAMESPACE}
                                 kubectl apply -f deployment.yml
                                 """
+                              )
                           }
                       } 
                    }
