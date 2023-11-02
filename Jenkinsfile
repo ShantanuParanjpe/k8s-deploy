@@ -14,7 +14,7 @@ pipeline {
     stage('Build') {
       steps {
 	    script {
-          withCredentials([usernamePassword(credentialsId: docker-token , variable: 'DOCKERHUB_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
            sh 'docker build -t shantanu1990/test:latest .'
          }
       }
@@ -23,7 +23,7 @@ pipeline {
     stage('Login') {
       steps {
 	    script {
-          withCredentials([usernamePassword(credentialsId: docker-token , variable: 'DOCKERHUB_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
            sh "docker login -u shantanu1990 -p \$DOCKERHUB_TOKEN"
       }
     }
