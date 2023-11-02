@@ -36,6 +36,24 @@ pipeline {
       }
     }
   }
+   
+    stage('SSH and Execute Commands on Remote Host') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: SSH_CREDENTIALS, passwordVariable: 'CREDENTIAL_PASS')]) {
+                        sshScript(
+                            remote: '192.168.56.112',
+                            user: 'root',
+                            password: env.CREDENTIAL_PASS,
+                            script: """
+                                echo \${DOCKER_CONFIG_JSON} | base64 --decode > docker-config.json
+                                kubectl create secret generic \${K8S_SECRET_NAME} --from-file=docker-config.json --namespace=\${K8S_NAMESPACE}
+                                kubectl apply -f deployment.yml
+                                """
+                          }
+                      } 
+                   }
+             }
   
   post {
     always {
