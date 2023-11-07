@@ -42,9 +42,8 @@ pipeline {
    
     stage('SSH and Execute Commands on Remote Host') {
             steps {
-                script {
                             sshagent(credentials : ['ssh-creds']) {
-                               sh 'ssh -o StrictHostKeyChecking=no root@192.168.56.112';sh "/usr/bin/kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json";sh "/usr/bin/kubectl apply -f deployment.yml"
+                                'ssh -o StrictHostKeyChecking=no root@192.168.56.112'; "/usr/bin/kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json";/usr/bin/kubectl apply -f deployment.yml
                           }
                       } 
                    }
