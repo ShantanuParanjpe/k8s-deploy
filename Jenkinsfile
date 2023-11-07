@@ -45,8 +45,10 @@ pipeline {
                 script {
                             sshagent(credentials : ['ssh-creds']) {
                                sh 'ssh -o StrictHostKeyChecking=no root@192.168.56.112'
-                               sh "kubectl create secret generic \${K8S_SECRET_NAME} --from-file=docker-config.json" 
-                               sh kubectl apply -f deployment.yml
+                               sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                               sh 'chmod u+x ./kubectl'  
+                               sh "kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json" 
+                               sh "kubectl apply -f deployment.yml"
                             
                           }
                       } 
