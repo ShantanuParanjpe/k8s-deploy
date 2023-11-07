@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                             sshagent(credentials : ['ssh-creds']) {
-                               sh 'ssh -t -t  -o StrictHostKeyChecking=no root@192.168.56.112'
+                               sh 'ssh -o StrictHostKeyChecking=no root@192.168.56.112'
                                sh "echo '\${DOCKER_CONFIG_JSON}' | base64 --decode > docker-config.json"
                                sh "kubectl create secret generic \${K8S_SECRET_NAME} --from-file=docker-config.json" 
                                sh kubectl apply -f deployment.yml
