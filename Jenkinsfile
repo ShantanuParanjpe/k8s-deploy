@@ -43,7 +43,6 @@ pipeline {
     stage('SSH and Execute Commands on Remote Host') {
             steps {
                     script {
-		            
                             sshagent(credentials : ['ssh-creds']) {
  			     sh """    
                              ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
