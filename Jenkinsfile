@@ -47,7 +47,7 @@ pipeline {
  			     sh """    
                              ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
                              kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/tmp/config.json
-                             kubectl apply -f deployment.yml
+                             kubectl apply -f ./deployment.yml
 			     """
                              }
                           }
