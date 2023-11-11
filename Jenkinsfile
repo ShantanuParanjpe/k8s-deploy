@@ -6,6 +6,7 @@ pipeline {
     SSH_CREDENTIALS = credentials('ssh-creds')
     K8S_SECRET_NAME = 'docker-secret'
     DOCKER_CONFIG_JSON = credentials('docker-config-json')
+    scannerHome = tool 'sq1'
   }
   stages {
     stage('Git Clone') {
@@ -37,11 +38,11 @@ pipeline {
 	  steps {
 	     script {
 			withSonarQubeEnv('sq1') {
-                        sh "./gradlew sonarqube"
+             		 sh "${scannerHome}/bin/sonar-scanner"
 		    }
 		}
-     }
-  }
+           }
+       }
 	
     stage('Push') {
       steps {
