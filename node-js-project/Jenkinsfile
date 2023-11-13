@@ -61,13 +61,13 @@ pipeline {
                     script {
                             sshagent(credentials : ['ssh-creds']) {
                               sh """
-                              ssh -o 'StrictHostKeyChecking=no' root@192.168.56.112 
-                              echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
-                              kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
-                              cd node-js-project
-                              kubectl apply -f deployment.yml
-                              sleep 15
-                              kubectl get po
+                                ssh -o 'StrictHostKeyChecking=no' root@192.168.56.112 
+                                echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
+                                kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
+                                cd node-js-project
+                                kubectl apply -f deployment.yml
+                                sleep 15
+                                kubectl get po
                               """
                              }
                           }
