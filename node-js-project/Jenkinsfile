@@ -52,7 +52,7 @@ pipeline {
 	
     stage('Push') {
       steps {
-        sh 'docker push shantanu1990/nodejs:latest'
+        sh 'docker push shantanu1990/nodejs'
       }
     }
 
