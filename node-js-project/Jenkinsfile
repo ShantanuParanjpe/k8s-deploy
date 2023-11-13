@@ -19,8 +19,10 @@ pipeline {
       steps {
             script {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
-           sh 'cd node-js-project/'
-           sh 'docker build -t shantanu1990/test:latest .'
+          sh """
+           cd node-js-project
+           docker build -t shantanu1990/test:latest .
+ 	   """
          }
       }
    }
