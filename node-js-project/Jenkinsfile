@@ -19,10 +19,10 @@ pipeline {
       steps {
             script {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
-          sh """
+           sh """
            cd node-js-project
-           docker build -t nodejs .
- 	   """
+           docker build -t shantanu1990/nodejs:latest .
+           """
          }
       }
    }
@@ -42,8 +42,9 @@ pipeline {
 	     script {
 			withSonarQubeEnv('sq1') {
                          sh """
-                         cd node-js-project
-             		 "${scannerHome}/bin/sonar-scanner"
+                 	 cd node-js-project    	 
+             		 ${scannerHome}/bin/sonar-scanner
+ 			 """
 		    }
 		}
            }
@@ -51,7 +52,7 @@ pipeline {
 	
     stage('Push') {
       steps {
-        sh 'docker push shantanu1990/nodejs'
+        sh 'docker push shantanu1990/nodejs:latest'
       }
     }
 
@@ -60,26 +61,24 @@ pipeline {
             steps {
                     script {
                             sshagent(credentials : ['ssh-creds']) {
-                              sh """
-                                ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
-			             echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
-                                kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
-                                cd node-js-project
-                                kubectl apply -f deployment.yml
-                                sleep 15
-                                kubectl get po
-              			EOF
-                              """
+                             sh """
+                             ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
+			     echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
+                             kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
+                             cd node-js-project
+                             kubectl apply -f deployment.yml
+                             kubectl get po
+                             """
                              }
                           }
                       }
                    }
 				   
 	stage('Docker Logout') {
-           steps {
-              sh 'docker logout'
-            }
-        }
-     }
- 
-  } 
+      steps {
+        sh 'docker logout'
+      }
+    }
+  }
+
+}
