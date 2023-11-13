@@ -49,7 +49,7 @@ pipeline {
 	
     stage('Push') {
       steps {
-        sh 'docker push nodejs'
+        sh 'docker push shantanu1990/nodejs'
       }
     }
 
