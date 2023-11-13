@@ -5,6 +5,6 @@ metadata:
 spec:
   containers:
   - name: private-reg-container
-    image: shaan/nginx:latest
+    image: shantanu1990/nginx:latest
   imagePullSecrets:
   - name: docker-secret
