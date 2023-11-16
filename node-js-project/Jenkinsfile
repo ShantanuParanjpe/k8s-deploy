@@ -21,7 +21,7 @@ pipeline {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
            sh """
            cd node-js-project
-           docker build -t shantanu1990/nodejs:latest .
+           docker build -t shantanu1990.jfrog.io/docker-repo/nodejs .
            """
          }
       }
@@ -31,7 +31,7 @@ pipeline {
       steps {
             script {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
-           sh "docker login -u shantanu1990 -p \$DOCKERHUB_TOKEN"
+           sh "docker login -u paranjpeshantanu986@gmail.com -p \$DOCKERHUB_TOKEN shantanu1990.jfrog.io"
       }
     }
    }
@@ -52,7 +52,7 @@ pipeline {
 	
     stage('Push') {
       steps {
-        sh 'docker push shantanu1990/nodejs:latest'
+        sh 'docker push shantanu1990.jfrog.io/docker-repo/nodejs'
       }
     }
 
