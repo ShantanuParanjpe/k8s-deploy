@@ -28,7 +28,7 @@ pipeline {
       steps {
             script {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
-           sh "docker login -u shantanu1990 -p \$DOCKERHUB_TOKEN"
+           sh "docker login -u paranjpeshantanu986@gmail.com shantanu1990.jfrog.io -p \$DOCKERHUB_TOKEN"
       }
     }
    }
@@ -61,6 +61,7 @@ pipeline {
                              kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
                              kubectl apply -f deployment.yml
                              kubectl get po
+ 			     docker logout
                              """
                              }
                           }
