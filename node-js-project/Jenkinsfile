@@ -65,6 +65,7 @@ pipeline {
                              ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
 			     echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
                              kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
+ 			     cd node-js-project
                              kubectl apply -f nodejs-dep.yml
 			     sleep 15
 			     kubectl get po  
