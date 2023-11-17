@@ -60,6 +60,7 @@ pipeline {
 			     echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
                              kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
                              kubectl apply -f deployment.yml
+			     sleep 15
                              kubectl get po
  			     docker logout
                              """
