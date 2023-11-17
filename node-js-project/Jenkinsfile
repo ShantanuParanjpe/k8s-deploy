@@ -68,7 +68,6 @@ pipeline {
                              kubectl apply -f nodejs-dep.yml
 			     sleep 15
 			     kubectl get po  
-			     kubectl delete secret docker-secret
                              """
                              }
                           }
