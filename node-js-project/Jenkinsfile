@@ -4,8 +4,7 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-token')
     SSH_CREDENTIALS = credentials('ssh-creds')
-    K8S_SECRET_NAME = 'docker-secret'
-    DOCKER_CONFIG_JSON = credentials('docker-config-json')
+    K8S_SECRET_NAME = 'regcred'
     scannerHome = tool 'SonarQubeScanner'
   }
   stages {
@@ -64,7 +63,7 @@ pipeline {
                             sshagent(credentials : ['ssh-creds']) {
                              sh """
                              ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
-			    kubectl create secret docker-registry regcred --docker-server=shantanu1990.jfrog.io --docker-username=paranjpeshantanu986@gmail.com --docker-password=\$ARTIFACTORY_TOKEN 
+			    kubectl create secret docker-registry \${K8S_SECRET_NAME} --docker-server=shantanu1990.jfrog.io --docker-username=paranjpeshantanu986@gmail.com --docker-password=\$ARTIFACTORY_TOKEN 
                              kubectl apply -f nodejs-dep.yml
 			     sleep 10
 			     kubectl get po  
