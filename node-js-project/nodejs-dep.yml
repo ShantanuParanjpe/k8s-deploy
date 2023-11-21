@@ -7,4 +7,4 @@ spec:
   - name: nodejs-container
     image: shantanu1990.jfrog.io/docker-repo/nodejs 
   imagePullSecrets:
-  - name: docker-secret
+  - name: regcred 
