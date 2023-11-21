@@ -60,25 +60,26 @@ pipeline {
     stage('SSH and Execute Commands on Remote Host') {
             steps {
                     script {
+                          withCredentials([string(credentialsId: 'docker-token', variable: 'ARTIFACTORY_TOKEN')]) {
                             sshagent(credentials : ['ssh-creds']) {
                              sh """
                              ssh -o StrictHostKeyChecking=no root@192.168.56.112 << EOF
-			     echo \${DOCKER_CONFIG_JSON} | base64 --decode > /root/.docker/config.json
-                             kubectl create secret generic \${K8S_SECRET_NAME} --from-file=/root/.docker/config.json
+			    kubectl create secret docker-registry regcred --docker-server=shantanu1990.jfrog.io --docker-username=paranjpeshantanu986@gmail.com --docker-password=\$ARTIFACTORY_TOKEN 
                              kubectl apply -f nodejs-dep.yml
-			     sleep 15
+			     sleep 10
 			     kubectl get po  
                              """
                              }
                           }
-                      }
+                       }
                    }
+                }
 				   
 	stage('Docker Logout') {
-      steps {
-        sh 'docker logout'
+          steps {
+           sh 'docker logout'
       }
     }
   }
-
+}
 
