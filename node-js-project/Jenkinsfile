@@ -1,5 +1,5 @@
 pipeline {
-  agent docker-demo-slave 
+  agent  docker 
 
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-token')
