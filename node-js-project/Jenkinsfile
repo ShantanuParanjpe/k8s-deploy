@@ -1,11 +1,6 @@
 pipeline {
 
-  agent {
-       docker {
-          label 'docker-demo-slave'
-          image 'shantanu1990/jenkins-slave-1'
-          }
-     } 
+  agent any 
 
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-token')
