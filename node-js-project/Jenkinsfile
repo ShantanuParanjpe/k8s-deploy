@@ -3,7 +3,7 @@ pipeline {
   agent {
        docker {
           label 'docker-demo-slave'
-          image 'bibinwilson/jenkins-slave'
+          image 'shantanu1990/jenkins-slave-1'
           }
      } 
 
@@ -26,7 +26,7 @@ pipeline {
           withCredentials([string(credentialsId: 'docker-token' , variable: 'DOCKERHUB_TOKEN')]) {
            sh """
            cd node-js-project
-           docker build -t shantanu1990.jfrog.io/docker-repo/nodejs .
+           docker build -t shantanu1990/nodejs .
            """
          }
       }
