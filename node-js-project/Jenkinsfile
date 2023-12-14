@@ -2,8 +2,8 @@ pipeline {
 
   agent {
        docker {
-          label 'docker-jnlp-slave'
-          image 'jenkins/slave'
+          label 'docker-slave'
+          image 'shantanu1990/jenkins-slave-1'
           } 
     }
 
