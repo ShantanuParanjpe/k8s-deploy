@@ -3,7 +3,7 @@ pipeline {
   agent {
        docker {
           label 'demo-docker'
-          image 'shantanu1990/jenkins-slave'
+          image 'jenkins/ssh-agent'
           } 
     }
 
