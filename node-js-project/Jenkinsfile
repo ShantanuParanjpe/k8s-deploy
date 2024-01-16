@@ -1,12 +1,12 @@
 pipeline {
 
-  /* agent {
+   agent {
        docker {
           label 'demo-docker'
           image 'jenkins/ssh-agent'
           } 
     }
-*/
+
 stages {
         stage('Build') {
             steps {
