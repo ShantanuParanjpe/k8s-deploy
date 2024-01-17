@@ -13,7 +13,7 @@ stages {
             steps {
                 script {
                 sh 'hostname'
-                sh 'pwd'
+                sh 'ip a'
                 echo 'Hello, this is the Build stage!'
             }
           }
