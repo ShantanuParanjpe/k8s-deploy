@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+      
+    environment {
+        registry = "851725453519.dkr.ecr.us-east-1.amazonaws.com/k8s-deploy"
+        AWS_CREDENTIALS_ID = 'aws-credentials-id'
+        AWS_REGION = 'us-east-1'
+        
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ShantanuParanjpe/shaanrepo']])
+            }
+        }
+        
+        stage('Build docker image') {
+            steps {
+               script {
+                    dir('k8s-nginx-deploy') {
+                     dockerImage = docker.build registry
+                     dockerImage.tag("${BUILD_NUMBER}")
+                    }
+               }
+            }
+        }
+        
+        stage('Login to ECR') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: AWS_CREDENTIALS_ID,
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    script {
+                        sh '''
+                        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 851725453519.dkr.ecr.us-east-1.amazonaws.com
+                        '''
+                    }
+                    
+                }
+            }
+        }
+        
+        stage('Push Docker Image into ECR') {
+            steps {
+                script {
+                   sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725453519.dkr.ecr.us-east-1.amazonaws.com"
+                   sh "docker push 851725453519.dkr.ecr.us-east-1.amazonaws.com/k8s-deploy:$BUILD_NUMBER"
+                }
+            }
+        }
+    
+
+        stage('Helm Deploy') {
+             steps {
+                 script {
+                    dir('k8s-nginx-deploy') {
+                       echo "Using Docker Image Tag: ${params.DOCKER_IMAGE_TAG}"
+                       withKubeConfig([credentialsId: 'kubeconfig']) {
+                        sh "helm install my-release nginx --namespace helm-deployment --set image.tag=${params.DOCKER_IMAGE_TAG}"
+                    }
+                }
+            }
+        }
+    }
+ }
+
+}
+
