@@ -1,0 +1,19 @@
+pipeline {
+
+   agent {
+
+       label 'k8s-master'
+    }
+
+stages {
+        stage('Build') {
+            steps {
+                script {
+                sh 'hostname'
+                sh 'ip a'
+                echo 'Hello, this is the Build stage!'
+            }
+          }
+        }
+    }
+}
