@@ -2,7 +2,9 @@ pipeline {
     agent any
     
 environment {
+        REGISTRY = "shantanu1990"
         IMAGE_NAME = "nodejs-app"
+        DOCKER_IMAGE = "${REGISTRY}/${IMAGE_NAME}"
 	}
 		
     stages {
@@ -16,7 +18,7 @@ environment {
             steps {
                script {
                     dir('node-js-project') {
-                     dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                     dockerImage = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
                     }
                }
             }
@@ -36,7 +38,7 @@ environment {
         stage('Push Docker') {
             steps {
                 script {            
-                   sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
+                   sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
                 }
             }
         }
