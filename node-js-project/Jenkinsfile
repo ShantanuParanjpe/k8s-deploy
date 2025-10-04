@@ -2,7 +2,6 @@ pipeline {
     agent any
     
 environment {
-        REGISTRY = "shaanrepo"
         IMAGE_NAME = "nodejs-app"
 	}
 		
@@ -37,7 +36,7 @@ environment {
         stage('Push Docker') {
             steps {
                 script {            
-                   sh "docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}"
+                   sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
