@@ -17,8 +17,7 @@ environment {
             steps {
                script {
                     dir('node-js-project') {
-                     dockerImage = docker.build ${REGISTRY}
-                     dockerImage.tag("${BUILD_NUMBER}")
+                     dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
                     }
                }
             }
