@@ -1,19 +1,46 @@
 pipeline {
-
-   agent {
-
-       label 'k8s-master'
-    }
-
-stages {
-        stage('Build') {
+    agent any
+    
+environment {
+        REGISTRY = "shaanrepo"
+        IMAGE_NAME = "nodejs-app"
+	}
+		
+    stages {
+        stage('Checkout') {
             steps {
-                script {
-                sh 'hostname'
-                sh 'ip a'
-                echo 'Hello, this is the Build stage!'
+                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ShantanuParanjpe/k8s-deploy']])
             }
-          }
         }
-    }
-}
+        
+        stage('Build docker image') {
+            steps {
+               script {
+                    dir('node-js-project') {
+                     dockerImage = docker.build ${REGISTRY}
+                     dockerImage.tag("${BUILD_NUMBER}")
+                    }
+               }
+            }
+        }
+		
+	
+        stage('Login to DockerHub') {
+            steps {
+               script {
+                  withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                  sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
+               }
+           }
+      }
+  }
+	
+        stage('Push Docker') {
+            steps {
+                script {            
+                   sh "docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}"
+                }
+            }
+        }
+    }    
+	
