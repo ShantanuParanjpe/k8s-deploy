@@ -20,19 +20,15 @@ environment {
 	stage('Build docker image') {
             agent {
                 docker {
-                    image 'docker:24.0.6'          // DinD image
-                    args '--entrypoint="" /var/run/docker.sock:/var/run/docker.sock'
+                    image 'docker:24.0.6'       
+                    args '--entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
 
-            environment {
-                DOCKER_HOST = 'tcp://localhost:2375' // Docker daemon inside DinD
-            }
-			
             steps {
                 script {
                     sh '''
-                      docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
+                      docker build -t ${DOCKER_IMAGE} node-js-project/ 
 		      '''	
                        }
 		}	
