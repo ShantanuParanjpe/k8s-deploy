@@ -21,9 +21,10 @@ environment {
             agent {
                 docker {
                     image 'docker:24-dind'          // DinD image
-                    args '--privileged -v /var/lib/docker'  // allow daemon to start
+                    args '--privileged -v /var/lib/docker --entrypoint=""'
                 }
             }
+
             environment {
                 DOCKER_HOST = 'tcp://localhost:2375' // Docker daemon inside DinD
             }
@@ -42,7 +43,7 @@ environment {
 
             }
 	
-        stage('Login to DockerHub') {
+      stage('Login to DockerHub') {
             steps {
                script {
                   withCredentials([usernamePassword(credentialsId: 'docker-token', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
