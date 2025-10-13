@@ -20,8 +20,8 @@ environment {
 	stage('Build docker image') {
             agent {
                 docker {
-                    image 'docker:24-dind-alpine'          // DinD image
-                    args '--privileged -v /var/lib/docker --entrypoint=""'
+                    image 'docker:24.0.6'          // DinD image
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
 
@@ -32,10 +32,6 @@ environment {
             steps {
                 script {
                     sh '''
-                      echo "Starting Docker daemon..."
-                      dockerd-entrypoint.sh &  # Start Docker daemon in background
-                      sleep 5                  # Wait for it to initialize
-                      echo "Building Docker image"
                       docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
 		      '''	
                        }
