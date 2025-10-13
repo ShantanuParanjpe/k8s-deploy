@@ -21,7 +21,7 @@ environment {
             agent {
                 docker {
                     image 'docker:24.0.6'       
-                    args '--entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock'
+                    args '--entrypoint="" -u 0 -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
 
