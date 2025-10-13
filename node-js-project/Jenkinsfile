@@ -25,9 +25,14 @@ environment {
                 }
             }
 
+           environment {
+              DOCKER_CONFIG = "${WORKSPACE}/.docker"  // writable path inside workspace
+             }
+
             steps {
                 script {
                     sh '''
+                      mkdir -p $DOCKER_CONFIG
                       docker build -t ${DOCKER_IMAGE} node-js-project/ 
 		      '''	
                        }
