@@ -39,6 +39,8 @@ environment {
 		      '''	
                        }
 		}	
+
+            }
 	
         stage('Login to DockerHub') {
             steps {
