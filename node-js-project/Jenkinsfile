@@ -20,7 +20,7 @@ environment {
 	stage('Build docker image') {
             agent {
                 docker {
-                    image 'docker:24-dind'          // DinD image
+                    image 'docker:24-dind-alpine'          // DinD image
                     args '--privileged -v /var/lib/docker --entrypoint=""'
                 }
             }
