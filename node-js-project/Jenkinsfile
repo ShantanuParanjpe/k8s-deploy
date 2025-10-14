@@ -49,13 +49,29 @@ environment {
            }
       }
   }
-	
-        stage('Push Docker') {
-            steps {
-                script {            
-                   sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
+
+
+      stage('Push docker image') {
+            agent {
+                docker {
+                    image 'docker:24.0.6'
+                    args '--entrypoint="" -u 0 -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-        }
+
+           environment {
+              DOCKER_CONFIG = "${WORKSPACE}/.docker"  // writable path inside workspace
+             }
+
+            steps {
+                script {
+                    sh '''
+                      mkdir -p $DOCKER_CONFIG
+                      docker push ${DOCKER_IMAGE} 
+                      '''
+                       }
+                 }
+
+            }
     }    
 }	
