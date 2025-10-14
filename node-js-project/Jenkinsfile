@@ -44,15 +44,10 @@ environment {
                 }
             }
 
-           environment {
-              DOCKER_CONFIG = "${WORKSPACE}/.docker"  // writable path inside workspace
-             }
-
             steps {
                 script {
                   withCredentials([usernamePassword(credentialsId: 'docker-token', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                     sh '''
-                      mkdir -p $DOCKER_CONFIG
                       echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
                       docker push ${DOCKER_IMAGE} 
                       '''
